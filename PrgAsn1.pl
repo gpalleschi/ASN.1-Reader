@@ -363,7 +363,7 @@ sub getTag {
        # Structured Tag read next tag
 
        $iLevel  = $iLevel + 1;
-       while ( (($length > 0) && ((tell FILE) - $startByte + 1) < $length) or
+       while ( (($length > 0) && ((tell FILE) - $startByte) < $length) or
 	       (($length < 0) && CtrlInfinitiveEnd($length) == 0) ) {
 	       getTag();
        }
