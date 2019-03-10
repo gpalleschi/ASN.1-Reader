@@ -3,7 +3,7 @@
 use bigint;
 
 #
-# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.1
+# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.1 
 #
 # perl PrgAsn1.pl <File Asn1> [<File Name Conversion>]
 #
