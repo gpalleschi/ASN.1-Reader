@@ -3,7 +3,7 @@
 use bigint;
 
 #
-# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.0 
+# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.1
 #
 # perl PrgAsn1.pl <File Asn1> [<File Name Conversion>]
 #
@@ -380,7 +380,7 @@ $flagHex=0;
 $flagOffSet=0;
 $flagTap=0;
 $flagLength=1;
-$Version="1.0 16/01/2019";
+$Version="3.1 02/03/2019";
 
 #End Declarative 
 
