@@ -3,7 +3,7 @@
 use bigint;
 
 #
-# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.1 
+# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.2 
 #
 # perl PrgAsn1.pl <File Asn1> [<File Name Conversion>]
 #
@@ -43,6 +43,10 @@ sub dataConvert {
 # Hex to Number
   if ( $type eq 'N' ) {
      $valueConv = hex $hexvalue;
+  }
+# Hex 
+  if ( $type eq 'H' ) {
+     $valueConv = $hexvalue;
   }
 
   return $valueConv;
@@ -380,7 +384,7 @@ $flagHex=0;
 $flagOffSet=0;
 $flagTap=0;
 $flagLength=1;
-$Version="3.1 02/03/2019";
+$Version="3.2 16/03/2019";
 
 #End Declarative 
 

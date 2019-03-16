@@ -112,14 +112,14 @@
 126|A|Iac
 127|A|IacList
 128|N|Imei
-129|N|Imsi
+129|H|Imsi
 130|A|InitiatingParty
 131|A|IPTextV4Address
 132|A|IPTextV6Address
 133|A|LatestCallTimeStamp
 134|A|Latitude
 135|A|LocalCurrency
-136|A|LocationArea
+136|N|LocationArea
 137|A|LocationDescription
 138|A|LocationInformation
 139|A|Longitude
@@ -135,7 +135,7 @@
 149|A|ModificationIndicator
 150|A|ModificationTimestamp
 151|A|MscId
-152|N|Msisdn
+152|H|Msisdn
 153|A|MtBasicCallInformation
 154|A|MultiRateIndicator
 155|A|NetworkId
@@ -382,7 +382,7 @@
 402|A|NonChargedNumber
 403|A|ThirdPartyNumber
 404|A|CamelDestinationNumber
-405|N|CallingNumber
+405|H|CallingNumber
 407|N|CalledNumber
 410|A|ChargeDetailTimeStamp
 411|A|FixedDiscountValue
