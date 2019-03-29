@@ -28,6 +28,9 @@ use bigint;
 
 # Start Function to convert hex value 
 
+$fromByte = -1;
+$toByte = -1;
+
 sub dataConvert {
   my ($hexvalue, $type) = @_;
   $valueConv = $hexvalue;
@@ -66,57 +69,72 @@ sub help {
     print "[-o]                       : Display Offset for each Tag\n\n";
     print "[-t]                       : Display Only value of Tag instead of Id-Tag (To use for TAP rappresentation)\n\n";
     print "[-nl]                      : No Display Length for Tags\n\n";
+    print "[-b]                       : Specify Byte From \n\n";
+    print "[-e]                       : Specify Byte To \n\n";
 }
 
 sub displayTagPrimitive {
 
+	$curByteDisp = tell FILE;
+        if ( ($fromByte eq -1) or ($curByteDisp >= $fromByte) ) {
 # Code Tag
+            if ( ($toByte eq -1) or ($curByteDisp <= $toByte) ) {
 
-	$RecordToDisplay = $CodeTag;
+# Code Tag
+   	         $RecordToDisplay = $CodeTag;
 
-	if ( $flagConv eq 1 ) {
+	         if ( $flagConv eq 1 ) {
 #           $RecordToDisplay = $RecordToDisplay . "\t{" . print("\t{%.40s}"",$DescFieldToDisplay) . "}";
-            $RecAppo = sprintf("\t{%s}",$DescFieldToDisplay);
-	    $RecAppo2 = sprintf("%-40s",$RecAppo);
-	    $RecordToDisplay = $RecordToDisplay . $RecAppo2;
-        }
+                     $RecAppo = sprintf("\t{%s}",$DescFieldToDisplay);
+	             $RecAppo2 = sprintf("%-40s",$RecAppo);
+	             $RecordToDisplay = $RecordToDisplay . $RecAppo2;
+                 }
 
 # Length
-	if ( $flagLength eq 1 ) {
-  	   $RecordToDisplay = $RecordToDisplay . "\t" . $LengthTAGToDisplay;
-        }
+	         if ( $flagLength eq 1 ) {
+  	            $RecordToDisplay = $RecordToDisplay . "\t" . $LengthTAGToDisplay;
+                 }
 
 # Hexadecimal Value
 
-	$RecordToDisplay = $RecordToDisplay . "\t" . $hexValueToDisplay;
+	         $RecordToDisplay = $RecordToDisplay . "\t" . $hexValueToDisplay;
 	
 # Traslated Value
 
-	if ( $flagConv eq 1 ) {
-	   $RecordToDisplay = $RecordToDisplay . "\tValue (" . "$datoConvToDisplay" . ")" . $typeConv;
-        }
+	         if ( $flagConv eq 1 ) {
+	            $RecordToDisplay = $RecordToDisplay . "\tValue (" . "$datoConvToDisplay" . ")" . $typeConv;
+                 }
 
 # Display 
-	print $RecordToDisplay;
+	         print $RecordToDisplay;
+              }
+        }
+
 }
 
 sub displayTagStructured {
 
+	$curByteDisp = tell FILE;
+        if ( ($fromByte eq -1) or ($curByteDisp >= $fromByte) ) {
 # Code Tag
+            if ( ($toByte eq -1) or ($curByteDisp <= $toByte) ) {
 
-	$RecordToDisplay = $CodeTag;
+# Code Tag
+	       $RecordToDisplay = $CodeTag;
 
-	if ( $flagConv eq 1 ) {
-           $RecordToDisplay = $RecordToDisplay . "\t{" . $DescFieldToDisplay . "}";
-        }
+	       if ( $flagConv eq 1 ) {
+                  $RecordToDisplay = $RecordToDisplay . "\t{" . $DescFieldToDisplay . "}";
+               }
 
 # Length
-	if ( $flagLength eq 1 ) {
-	   $RecordToDisplay = $RecordToDisplay . "\t" . $LengthTAGToDisplay;
-        }
+	       if ( $flagLength eq 1 ) {
+	          $RecordToDisplay = $RecordToDisplay . "\t" . $LengthTAGToDisplay;
+               }
 
 # Display 
-	print $RecordToDisplay;
+	       print $RecordToDisplay;
+            }
+        }
 }
 
 
@@ -182,7 +200,7 @@ sub GetPrimitiveValue {
 }
 
 sub readAsn1 { 
-    if ( eof(FILE) ) {
+    if ( eof(FILE) or ($toByte != -1 && (tell FILE > $toByte)) ) {
 
        printf("\n");
        close(FILE);
@@ -296,17 +314,22 @@ sub getTag {
         $length = -1;
       }
     }
-    printf("\n");
 
 # Print OffSet
  
     if ( $flagOffSet eq 1 ) {
-      printf("%08d:%04d:  ",$startByte,$iLevel);
+        if ( ($fromByte eq -1) or (tell FILE >= $fromByte) ) {
+            printf("\n");
+# Code Tag
+            if ( ($toByte eq -1) or (tell FILE <= $toByte) ) {
+               printf("%08d:%04d:  ",$startByte,$iLevel);
+            }
+            for($i=0;$i<$iLevel;$i++) {
+               print("   ");
+            }
+        }
     }
 
-    for($i=0;$i<$iLevel;$i++) {
-       print("   ");
-    }
 
     if ( $flagLength eq 1 ) {
        if ( $length < 0 ) {
@@ -367,7 +390,7 @@ sub getTag {
        # Structured Tag read next tag
 
        $iLevel  = $iLevel + 1;
-       while ( (($length > 0) && ((tell FILE) - $startByte) < $length) or
+       while ( (($length > 0) && ((tell FILE) - $startByte) <= $length) or
 	       (($length < 0) && CtrlInfinitiveEnd($length) == 0) ) {
 	       getTag();
        }
@@ -384,7 +407,8 @@ $flagHex=0;
 $flagOffSet=0;
 $flagTap=0;
 $flagLength=1;
-$Version="3.2 16/03/2019";
+$Version="4.0 29/03/2019";
+
 
 #End Declarative 
 
@@ -417,6 +441,15 @@ for($i = 1; $i <= $#ARGV; $i++)
 	if ( substr($ARGV[$i],0,3) eq "-nl" ) {
 		$flagLength = 0;
 	}
+        # From Byte - begin
+        if ( substr($ARGV[$i],0,2) eq "-b" ) {
+                $fromByte = int(substr($ARGV[$i],2));
+        }
+        # To Byte - end
+        if ( substr($ARGV[$i],0,2) eq "-e" ) {
+                $toByte = int(substr($ARGV[$i],2));
+        }
+
 }
 
 $flag_cont=1;
@@ -426,6 +459,11 @@ open FILE, $ARGV[0] or die "Couldn't open file: $ARGV[0] $!\n";
 $sizeFile = -s $ARGV[0];
 
 printf("\nASN1 FILE $ARGV[0] SIZE : $sizeFile\n");
+
+if ( $fromByte != -1 ) {
+  seek FILE,$fromByte,0
+}
+
 
 $iLevel  = 0;
 while ( $flag_cont == 1 ) {
