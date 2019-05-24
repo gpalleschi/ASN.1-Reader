@@ -55,7 +55,7 @@
 69|A|ChargeInformation
 70|A|ChargeInformationList
 71|A|ChargeType
-72|A|ChargingId
+72|N|ChargingId
 73|A|ChargingPoint
 74|A|ChargingTimeStamp
 75|A|ClirIndicator

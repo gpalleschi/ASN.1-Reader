@@ -68,6 +68,7 @@ sub help {
     print "[-h]                       : Display Hexadecimal Value for Tags\n\n";
     print "[-o]                       : Display Offset for each Tag\n\n";
     print "[-t]                       : Display Only value of Tag instead of Id-Tag (To use for TAP rappresentation)\n\n";
+    print "[-npv]                     : No Display primitive Values\n\n";
     print "[-nl]                      : No Display Length for Tags\n\n";
     print "[-b]                       : Specify Byte From \n\n";
     print "[-e]                       : Specify Byte To \n\n";
@@ -83,7 +84,7 @@ sub displayTagPrimitive {
 # Code Tag
    	         $RecordToDisplay = $CodeTag;
 
-	         if ( $flagConv eq 1 ) {
+	         if ( ($flagConv eq 1) ) {
 #           $RecordToDisplay = $RecordToDisplay . "\t{" . print("\t{%.40s}"",$DescFieldToDisplay) . "}";
                      $RecAppo = sprintf("\t{%s}",$DescFieldToDisplay);
 	             $RecAppo2 = sprintf("%-40s",$RecAppo);
@@ -97,11 +98,13 @@ sub displayTagPrimitive {
 
 # Hexadecimal Value
 
-	         $RecordToDisplay = $RecordToDisplay . "\t" . $hexValueToDisplay;
+		 if ( $flagNoPrimValue eq 0 ) {
+	            $RecordToDisplay = $RecordToDisplay . "\t" . $hexValueToDisplay;
+                 }
 	
 # Traslated Value
 
-	         if ( $flagConv eq 1 ) {
+	         if ( ($flagConv eq 1) && ($flagNoPrimValue eq 0) ) {
 	            $RecordToDisplay = $RecordToDisplay . "\tValue (" . "$datoConvToDisplay" . ")" . $typeConv;
                  }
 
@@ -328,6 +331,8 @@ sub getTag {
                print("   ");
             }
         }
+    } else {
+      printf("\n");
     }
 
 
@@ -407,7 +412,8 @@ $flagHex=0;
 $flagOffSet=0;
 $flagTap=0;
 $flagLength=1;
-$Version="4.0 29/03/2019";
+$flagNoPrimValue=0;
+$Version="4.1 24/05/2019";
 
 
 #End Declarative 
@@ -440,6 +446,10 @@ for($i = 1; $i <= $#ARGV; $i++)
 	# Notazione No Length
 	if ( substr($ARGV[$i],0,3) eq "-nl" ) {
 		$flagLength = 0;
+	}
+	# Notazione No Primitive Value 
+	if ( substr($ARGV[$i],0,4) eq "-npv" ) {
+		$flagNoPrimValue = 1;
 	}
         # From Byte - begin
         if ( substr($ARGV[$i],0,2) eq "-b" ) {
