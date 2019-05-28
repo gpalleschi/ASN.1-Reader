@@ -41,7 +41,7 @@
 55|A|CamelServiceKey
 56|A|CamelServiceLevel
 57|A|CamelServiceUsed
-58|A|CauseForTerm
+58|N|CauseForTerm
 59|N|CellId
 60|A|ChannelCoding
 61|A|ChannelCodingAcceptableList
@@ -230,8 +230,8 @@
 246|A|CalledNumAnalysis
 247|A|CalledNumAnalysisCode
 249|A|CalledNumAnalysisList
-250|A|DataVolumeIncoming
-251|A|DataVolumeOutgoing
+250|N|DataVolumeIncoming
+251|N|DataVolumeOutgoing
 252|N|NumberOfChannelsUsed
 253|A|Mdn
 254|A|MinChargeableSubscriber
