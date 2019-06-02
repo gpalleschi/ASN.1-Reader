@@ -111,7 +111,7 @@
 125|A|HSCSDParameterModification
 126|A|Iac
 127|A|IacList
-128|N|Imei
+128|H|Imei
 129|H|Imsi
 130|A|InitiatingParty
 131|A|IPTextV4Address
