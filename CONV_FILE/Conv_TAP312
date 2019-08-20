@@ -383,7 +383,7 @@
 403|A|ThirdPartyNumber
 404|A|CamelDestinationNumber
 405|H|CallingNumber
-407|N|CalledNumber
+407|H|CalledNumber
 410|A|ChargeDetailTimeStamp
 411|A|FixedDiscountValue
 412|A|Discount
