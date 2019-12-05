@@ -58,7 +58,7 @@ sub dataConvert {
 # End Function to convert hex value 
 sub help {
     print "\n\nPrgAsn1.pl version $Version\n\n";
-    print "Use: PrgAsn1.pl <File Asn1> [-s<File Name Conversion>] [-h] [-o] [-t] [-nl] [-help]\n\n";
+    print "Use: PrgAsn1.pl <File Asn1> [-s<File Name Conversion>] [-h] [-o] [-t] [-npv] [-lt] [-ll] [-nl] [-b] [-e] [-help]\n\n";
     print "[...] are optional parameters\n\n";
     print "[-s<File Name Conversion>] : you can add a Conversion File. Each record has this format <Tag Name>|<Conversion Type>|<Desc Tag>\n";
     print "                             Values for <Conversion Type> : A for Hex to Ascii\n";
@@ -69,6 +69,8 @@ sub help {
     print "[-o]                       : Display Offset for each Tag\n\n";
     print "[-t]                       : Display Only value of Tag instead of Id-Tag (To use for TAP rappresentation)\n\n";
     print "[-npv]                     : No Display primitive Values\n\n";
+    print "[-lt]                      : Display len Tag in Bytes\n\n";
+    print "[-ll]                      : Display len Len in Bytes\n\n";
     print "[-nl]                      : No Display Length for Tags\n\n";
     print "[-b]                       : Specify Byte From \n\n";
     print "[-e]                       : Specify Byte To \n\n";
@@ -90,10 +92,19 @@ sub displayTagPrimitive {
 	             $RecAppo2 = sprintf("%-40s",$RecAppo);
 	             $RecordToDisplay = $RecordToDisplay . $RecAppo2;
                  }
+# Length Tag Bytes
+	         if ( $flagLengthTag eq 1 ) {
+  	            $RecordToDisplay = $RecordToDisplay . "\t" . $LengthLenTAGToDisplay;
+                 }
 
 # Length
 	         if ( $flagLength eq 1 ) {
   	            $RecordToDisplay = $RecordToDisplay . "\t" . $LengthTAGToDisplay;
+                 }
+
+# Length Len Bytes 
+	         if ( $flagLengthLen eq 1 ) {
+  	            $RecordToDisplay = $RecordToDisplay . "\t" . $LengthLenLENToDisplay;
                  }
 
 # Hexadecimal Value
@@ -129,9 +140,19 @@ sub displayTagStructured {
                   $RecordToDisplay = $RecordToDisplay . "\t{" . $DescFieldToDisplay . "}";
                }
 
+# Length Tag
+               if ( $flagLengthTag eq 1 ) {
+                  $RecordToDisplay = $RecordToDisplay . "\t" . $LengthLenTAGToDisplay;
+               }
+
 # Length
 	       if ( $flagLength eq 1 ) {
 	          $RecordToDisplay = $RecordToDisplay . "\t" . $LengthTAGToDisplay;
+               }
+
+# Length Len Bytes
+               if ( $flagLengthLen eq 1 ) {
+                  $RecordToDisplay = $RecordToDisplay . "\t" . $LengthLenLENToDisplay;
                }
 
 # Display 
@@ -215,9 +236,12 @@ sub readAsn1 {
 
 sub getTag {
 
+    my $lengthTag = 0;
+    my $lengthLen = 0;
     my $length;
     my $startByte = tell FILE;
     my $taghex = readAsn1();
+    $lengthTag = $lengthTag + 1;
     my $next = hex $taghex;
 
     if ( $next == 0 ) { return; }
@@ -238,6 +262,7 @@ sub getTag {
     if ( $tag == 31 )
     {
       $taghex = sprintf("%s%s",$taghex,readAsn1());
+      $lengthTag = $lengthTag + 1;
       $nextbis = hex $taghex;
 
       $nextbis = $nextbis & 0xff;
@@ -246,6 +271,7 @@ sub getTag {
       while( 128 == ( $nextbis & 128 ) )
       {
         $taghex = sprintf("%s%s",$taghex,readAsn1());
+        $lengthTag = $lengthTag + 1;
         $nextbis = hex $taghex;
 
         $nextbis = $nextbis & 0xff;
@@ -281,7 +307,13 @@ sub getTag {
           $CodeTag = sprintf ("$TagApp");
     }
 
+    if ( $flagLengthTag eq 1 ) {
+          $LengthLenTAGToDisplay = "length Tag Bytes : $lengthTag";
+    } 
+
+
     $next = hex readAsn1();
+    $lengthLen = $lengthLen + 1;
 
     $nbyte = $next & 127;
 
@@ -299,11 +331,13 @@ sub getTag {
         }
         else {
           $next = hex readAsn1();
+          $lengthLen = $lengthLen + 1;
 
           $length = $next;
           for($contabyte=1;$contabyte<$nbyte;$contabyte++)
           {
             $next = hex readAsn1();
+            $lengthLen = $lengthLen + 1;
 
             $length = $length << 8 | ( $next );
           }
@@ -317,6 +351,10 @@ sub getTag {
         $length = -1;
       }
     }
+
+    if ( $flagLengthLen eq 1 ) {
+          $LengthLenLENToDisplay = "length Len Bytes : $lengthLen";
+    } 
 
 # Print OffSet
  
@@ -412,8 +450,10 @@ $flagHex=0;
 $flagOffSet=0;
 $flagTap=0;
 $flagLength=1;
+$flagLengthTag=0;
+$flagLengthLen=0;
 $flagNoPrimValue=0;
-$Version="4.1 24/05/2019";
+$Version="4.2 22/11/2019";
 
 
 #End Declarative 
@@ -442,6 +482,14 @@ for($i = 1; $i <= $#ARGV; $i++)
 	# Notazione Tap
 	if ( substr($ARGV[$i],0,2) eq "-t" ) {
 		$flagTap = 1;
+	}
+	# Notazione Length Tag in bytes
+	if ( substr($ARGV[$i],0,3) eq "-lt" ) {
+		$flagLengthTag = 1;
+	}
+	# Notazione Length Length in bytes
+	if ( substr($ARGV[$i],0,3) eq "-ll" ) {
+		$flagLengthLen = 1;
 	}
 	# Notazione No Length
 	if ( substr($ARGV[$i],0,3) eq "-nl" ) {
