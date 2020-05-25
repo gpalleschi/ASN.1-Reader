@@ -58,7 +58,7 @@
 72|N|ChargingId
 73|A|ChargingPoint
 74|A|ChargingTimeStamp
-75|A|ClirIndicator
+75|N|ClirIndicator
 76|A|CompletionTimeStamp
 77|A|CountryCode
 78|A|CountryCodeList
@@ -375,12 +375,12 @@
 394|A|ResponseTime
 395|A|PositioningMethod
 396|A|AgeOfLocation
-397|A|TaxValue
-398|A|TaxableAmount
+397|N|TaxValue
+398|N|TaxableAmount
 399|A|CamelServerAddress
 400|A|RecEntityId
 402|A|NonChargedNumber
-403|A|ThirdPartyNumber
+403|H|ThirdPartyNumber
 404|A|CamelDestinationNumber
 405|H|CallingNumber
 407|H|CalledNumber
