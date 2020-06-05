@@ -3,7 +3,7 @@
 use bigint;
 
 #
-# GPSoft - Giovanni Palleschi - 2010-2019 PrgAsn1.pl Utility read file ASN.1 - Ver. 3.3
+# GPSoft - Giovanni Palleschi - 2010-2020 PrgAsn1.pl Utility read file ASN.1 - Ver. 4.3
 #
 # perl PrgAsn1.pl <File Asn1> [<File Name Conversion>]
 #
@@ -45,7 +45,28 @@ sub dataConvert {
   }
 # Hex to Number
   if ( $type eq 'N' ) {
-     $valueConv = hex $hexvalue;
+     #Check if number is Negative or Positive
+     $valueConv = unpack("B*", pack("H*", $hexvalue));
+     $signBit = substr($valueConv, 0, 1);
+     #if 0 is positive
+     if ( $signBit eq '0' ) {
+        $valueConv = hex $hexvalue;
+     } else {
+     #if 1 is negative
+       my $diff = hex($hexvalue) - hex(1);
+       $hexvalue = sprintf "%x", $diff;
+       $valueConv = unpack("B*", pack("H*", $hexvalue));
+       $valueCompl2 = "";
+       for($iInd=0;$iInd<length($valueConv);$iInd++) {
+         if ( substr($valueConv, $iInd, 1) eq '0' ) {
+            $valueCompl2 = $valueCompl2 . "1";
+         } else {
+            $valueCompl2 = $valueCompl2 . "0";
+         }
+       }      
+       $decimal_number = oct("0b".$valueCompl2);
+       $valueConv = "-" . $decimal_number;
+     }   
   }
 # Hex 
   if ( $type eq 'H' ) {
@@ -453,7 +474,7 @@ $flagLength=1;
 $flagLengthTag=0;
 $flagLengthLen=0;
 $flagNoPrimValue=0;
-$Version="4.2 22/11/2019";
+$Version="4.3 05/06/2020";
 
 
 #End Declarative 
