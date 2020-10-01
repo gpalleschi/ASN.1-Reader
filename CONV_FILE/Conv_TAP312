@@ -51,7 +51,7 @@
 65|N|ChargeableUnits
 66|A|ChargedItem
 67|A|ChargedPartyStatus
-68|A|ChargedUnits
+68|N|ChargedUnits
 69|A|ChargeInformation
 70|A|ChargeInformationList
 71|A|ChargeType
@@ -192,7 +192,7 @@
 209|A|SupplServiceCode
 210|A|TapCurrency
 211|A|TaxationList
-212|A|TaxCode
+212|N|TaxCode
 213|A|TaxInformation
 214|A|TaxInformationList
 215|A|TaxRate
