@@ -78,7 +78,13 @@ sub dataConvert {
 
 # End Function to convert hex value 
 sub help {
-    print "\n\nPrgAsn1.pl version $Version\n\n";
+
+    print "\n\n    _    ____  _   _   _       ____                _\n";
+    print "   / \\  / ___|| \\ | | / |     |  _ \\ ___  __ _  __| | ___ _ __\n";
+    print "  / _ \\ \\___ \\|  \\| | | |_____| |_) / _ \\/ _` |/ _` |/ _ \\ '__|\n";
+    print " / ___ \\ ___) | |\\  |_| |_____|  _ <  __/ (_| | (_| |  __/ |\n";
+    print "/_/   \\_\\____/|_| \\_(_)_|     |_| \\_\\___|\\__,_|\\__,_|\\___|_|\n";
+    print "\nPrgAsn1.pl version $Version\n\n";
     print "Use: PrgAsn1.pl <File Asn1> [-s<File Name Conversion>] [-h] [-o] [-t] [-npv] [-lt] [-ll] [-nl] [-b] [-e] [-help]\n\n";
     print "[...] are optional parameters\n\n";
     print "[-s<File Name Conversion>] : you can add a Conversion File. Each record has this format <Tag Name>|<Conversion Type>|<Desc Tag>\n";
@@ -474,7 +480,7 @@ $flagLength=1;
 $flagLengthTag=0;
 $flagLengthLen=0;
 $flagNoPrimValue=0;
-$Version="4.3 05/06/2020";
+$Version="4.4 18/03/2021";
 
 
 #End Declarative 
