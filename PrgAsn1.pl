@@ -3,7 +3,7 @@
 use bigint;
 
 #
-# GPSoft - Giovanni Palleschi - 2010-2020 PrgAsn1.pl Utility read file ASN.1 - Ver. 4.3
+# GPSoft - Giovanni Palleschi - 2010-2021 PrgAsn1.pl Utility read file ASN.1 - Ver. 4.4
 #
 # perl PrgAsn1.pl <File Asn1> [<File Name Conversion>]
 #
@@ -96,8 +96,8 @@ sub help {
     print "[-o]                       : Display Offset for each Tag\n\n";
     print "[-t]                       : Display Only value of Tag instead of Id-Tag (To use for TAP rappresentation)\n\n";
     print "[-npv]                     : No Display primitive Values\n\n";
-    print "[-lt]                      : Display len Tag in Bytes\n\n";
-    print "[-ll]                      : Display len Len in Bytes\n\n";
+    print "[-lt]                      : Display len Tag in Hexadecimal Value\n\n";
+    print "[-ll]                      : Display len Len in Hexadecimal Value\n\n";
     print "[-nl]                      : No Display Length for Tags\n\n";
     print "[-b]                       : Specify Byte From \n\n";
     print "[-e]                       : Specify Byte To \n\n";
@@ -480,7 +480,7 @@ $flagLength=1;
 $flagLengthTag=0;
 $flagLengthLen=0;
 $flagNoPrimValue=0;
-$Version="4.4 22/03/2021";
+$Version="4.4 12/08/2021";
 
 
 #End Declarative 

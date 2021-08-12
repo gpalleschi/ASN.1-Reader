@@ -22,8 +22,8 @@ Parameters `<...>` are mandatory
 **`[-o]`**                       : Display Offset for each Tag  
 **`[-t]`**                       : Display Only value of Tag instead of Id-Tag (To use for TAP rappresentation)  
 **`[-npv]`**                     : No Display primitive Values  
-**`[-lt]`**                      : Display len Tag in Bytes  
-**`[-ll]`**                      : Display len Len in Bytes  
+**`[-lt]`**                      : Display len Tag in Hexadecimal Value  
+**`[-ll]`**                      : Display len Len in Hexadecimal Value  
 **`[-nl]`**                      : No Display Length for Tags  
 **`[-b]`**                       : Specify Byte From  
 **`[-e]`**                       : Specify Byte To  
